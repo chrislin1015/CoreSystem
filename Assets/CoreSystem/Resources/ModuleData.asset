@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ccb4ff02e147c04f913abf899dc83a6, type: 3}
+  m_Name: ModuleData
+  m_EditorClassIdentifier: 
+  m_ModuleDatas:
+  - ModuleID: 100
+    AssetType: 0
+    AssetName: Module/Logo
+    AttachName: none
+  - ModuleID: 1
+    AssetType: 0
+    AssetName: Module/MainMenu
+    AttachName: none
+  - ModuleID: 2
+    AssetType: 0
+    AssetName: Module/Lobby
+    AttachName: none
+  - ModuleID: 3
+    AssetType: 0
+    AssetName: Module/Factory
+    AttachName: none
+  - ModuleID: 4
+    AssetType: 0
+    AssetName: Module/Detect
+    AttachName: none
+  - ModuleID: 5
+    AssetType: 0
+    AssetName: Module/Conveyor
+    AttachName: none
+  - ModuleID: 6
+    AssetType: 0
+    AssetName: Module/Warehouse
+    AttachName: none
+  - ModuleID: 7
+    AssetType: 0
+    AssetName: Module/Information
+    AttachName: none
