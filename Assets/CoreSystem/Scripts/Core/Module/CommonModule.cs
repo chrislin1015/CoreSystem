@@ -12,20 +12,16 @@ public class CommonModule : ModuleBase
         MAX,
     }
 
-    static public bool s_IsReady = false;
+    //static public bool s_IsReady = false;
 
     public ASSET_TYPE e_AssetType;
     public string m_AssetName;
-    //public string m_AttachName;
     protected GameObject m_MainObject;
 
-    /*
-     * Load a xml file to create modules
-     */
-    static public void CreateModules()
+    static public void CreateModules(ModuleDataSO iModuleData)
     {
-        s_IsReady = false;
-        //PrefabLoader.LoadPrefab("ModuleData", LoadModueleDataFinish);
+        //s_IsReady = false;
+        BuildModuleData(iModuleData);
     }
 
     public CommonModule()
@@ -114,6 +110,24 @@ public class CommonModule : ModuleBase
         if (m_MainObject != null)
         {
             m_MainObject.SendMessage("Initial", SendMessageOptions.DontRequireReceiver);
+        }
+    }
+
+    protected static void BuildModuleData(ModuleDataSO iModuleData)
+    {
+        if (iModuleData == null)
+            return;
+
+        foreach (ModuleData _Moduledata in iModuleData.m_ModuleDatas)
+        {
+            CommonModule _Newmodule = new CommonModule();
+            if (_Newmodule == null)
+                continue;
+
+            _Newmodule.m_ModuleID = _Moduledata.ModuleID;
+            _Newmodule.e_AssetType = (ASSET_TYPE)_Moduledata.AssetType;
+            _Newmodule.m_AssetName = _Moduledata.AssetName;
+            ModuleSystem.Instance.RegisterModule(_Newmodule);
         }
     }
 

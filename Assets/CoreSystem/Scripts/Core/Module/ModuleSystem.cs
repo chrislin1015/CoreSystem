@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 
-public class ModuleSystem : MonoBehaviour
+public class ModuleSystem : Singleton<ModuleSystem>
 {
     public enum CHANGE_TYPE
     {
@@ -14,17 +14,6 @@ public class ModuleSystem : MonoBehaviour
         MAX
     }
     protected const int NULLMODULEID = -1;
-    /*
-     * this varialbe is reference to self
-     */
-    protected static ModuleSystem s_Instance = null;
-    public static ModuleSystem Instance
-    {
-        get
-        {
-            return s_Instance;
-        }
-    }
 
     /*
      * This variable is used to store all module
@@ -42,6 +31,7 @@ public class ModuleSystem : MonoBehaviour
      * 
      */
     protected ModuleBase m_CurrentModule;
+
     /*
      * 
      */
@@ -66,8 +56,9 @@ public class ModuleSystem : MonoBehaviour
         }
     }
 
-    void OnDestroy()
+    new void OnDestroy()
     {
+        base.OnDestroy();
         foreach (ModuleBase _M in m_ModuleLsit)
         {
             if (_M == null)
@@ -80,11 +71,7 @@ public class ModuleSystem : MonoBehaviour
 
     void Awake()
     {
-        if (s_Instance == null)
-        {
-            s_Instance = this;
-        }
-        else
+        if (Instance != null)
         {
             Destroy(this);
         }
@@ -133,10 +120,6 @@ public class ModuleSystem : MonoBehaviour
         }
     }
 
-    void LateUpdate()
-    {
-    }
-
     protected void StartChangeModule(int id)
     {
         m_ToModuleIndex = id;
@@ -146,18 +129,10 @@ public class ModuleSystem : MonoBehaviour
             m_CurrentModule.DoLastRun();
         }
 
-        /*if (m_DestroyScene.Count > 0)
-        {
-            SceneManager.sceneUnloaded += OnSceneUnLoaded;
-            StartUnloadScene();
-        }
-        else*/
-        {
-            DoChangeModule();
-        }
+        DoChangeModule();
     }
 
-    void DoChangeModule()
+    protected void DoChangeModule()
     {
         int _Index = 0;
         foreach (ModuleBase _MB in m_ModuleLsit)
@@ -245,14 +220,7 @@ public class ModuleSystem : MonoBehaviour
         {
             SceneManager.sceneUnloaded += OnSceneUnLoaded;
             SceneManager.UnloadSceneAsync(m_DestroyScene[0]);
-            //StartUnloadScene();
         }
-
-
-        //if (m_DestroyScene.Count == 0)
-        //    return;
-
-        //SceneManager.UnloadSceneAsync(m_DestroyScene[0]);
     }
 
     void OnSceneUnLoaded(Scene iScene)
@@ -260,11 +228,8 @@ public class ModuleSystem : MonoBehaviour
         if (m_DestroyScene.Contains(iScene))
         {
             m_DestroyScene.Remove(iScene);
-            //if (m_DestroyScene.Count > 0)
-            //    StartUnloadScene();
         }
 
         SceneManager.sceneUnloaded -= OnSceneUnLoaded;
-        //DoChangeModule();
     }
 }

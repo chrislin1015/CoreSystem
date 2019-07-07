@@ -17,7 +17,7 @@ public class MainSystem : Singleton<MainSystem>
     /*
      * 是否使用通用模組建立功能
      */
-    public bool m_IsCommonModules = true;
+    //public bool m_IsCommonModules = true;
 
     /*
      * 多久進行一次垃圾收集
@@ -28,6 +28,8 @@ public class MainSystem : Singleton<MainSystem>
      * 第一個要進入的模組ID
      */
     public int m_FirstModuleID = 0;
+
+    public ModuleDataSO m_MoudleData;
 
     /*
      * 遊戲系統名稱，設定後會載入遊戲本身的系統管理物件
@@ -69,11 +71,12 @@ public class MainSystem : Singleton<MainSystem>
 
     void Start()
     {
-        if (m_IsCommonModules)
+        if (m_MoudleData != null)
         {
             if (Application.isPlaying)
             {
-                CommonModule.CreateModules();
+                CommonModule.CreateModules(m_MoudleData);
+                ModuleSystem.Instance.ReadyChangeModule(m_FirstModuleID, InitialFadeOutComplete);
             }
         }
 
@@ -103,11 +106,11 @@ public class MainSystem : Singleton<MainSystem>
                 m_ScreenShotSuperSize);
         }
 
-        if (m_IsCommonModules && Application.isPlaying && CommonModule.s_IsReady)
+        /*if (m_IsCommonModules && Application.isPlaying && CommonModule.s_IsReady)
         {
             ModuleSystem.Instance.ReadyChangeModule(m_FirstModuleID, InitialFadeOutComplete);
             CommonModule.s_IsReady = false;
-        }
+        }*/
     }
 
     void GPUInfo()

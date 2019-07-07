@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public class XMLBuilder : EditorWindow
+public class XML2ScriptObject : EditorWindow
 {
-    static protected XMLBuilder s_Instance;
+    static protected XML2ScriptObject s_Instance;
 
     protected TextAsset m_StringSource;
     protected string m_SourcePath;
@@ -14,7 +14,7 @@ public class XMLBuilder : EditorWindow
     [MenuItem("CoreTool/XML Builder")]
     static void Init()
     {
-        s_Instance = (XMLBuilder)EditorWindow.GetWindow(typeof(XMLBuilder));
+        s_Instance = (XML2ScriptObject)EditorWindow.GetWindow(typeof(XML2ScriptObject));
     }
 
     void OnEnable()
@@ -104,23 +104,24 @@ public class XMLBuilder : EditorWindow
                     string _Path = GetFolderPath(m_SourcePath);
 
                     string _SOPath = _Path + _Text.name + ".asset";
-                    ScriptableObject _SO2 = ScriptableObject.CreateInstance(_Text.name + "SO");
-                    Object _Temp = AssetDatabase.LoadAssetAtPath(_SOPath, _SO2.GetType());
-                    ScriptableObject _SO = _Temp as ScriptableObject;//AssetDatabase.LoadAssetAtPath(_SOPath, System.Type.GetType(_Text.name + "SO")) as ScriptableObject;
+                    ScriptableObject _SO = ScriptableObject.CreateInstance(_Text.name + "SO");
+                    if (_SO != null)
+                    {
+                        Object _Temp = AssetDatabase.LoadAssetAtPath(_SOPath, _SO.GetType());
 
-                    if (_SO == null)
-                    {
-                        _SO = ScriptableObject.CreateInstance(_Text.name + "SO");
-                        System.Reflection.MethodInfo _M = _SO.GetType().GetMethod("DataFromXML");
-                        _M.Invoke(_SO, new object[] { m_SourceContent });
-                        AssetDatabase.CreateAsset(_SO, _SOPath);
-                        AssetDatabase.Refresh();
-                    }
-                    else
-                    {
-                        System.Reflection.MethodInfo _M = _SO.GetType().GetMethod("DataFromXML");
-                        _M.Invoke(_SO, new object[] { m_SourceContent });
-                        AssetDatabase.Refresh();
+                        if (_Temp == null)
+                        {
+                            System.Reflection.MethodInfo _M = _SO.GetType().GetMethod("DataFromXML");
+                            _M.Invoke(_SO, new object[] { m_SourceContent });
+                            AssetDatabase.CreateAsset(_SO, _SOPath);
+                            AssetDatabase.Refresh();
+                        }
+                        else
+                        {
+                            System.Reflection.MethodInfo _M = _SO.GetType().GetMethod("DataFromXML");
+                            _M.Invoke(_SO, new object[] { m_SourceContent });
+                            AssetDatabase.Refresh();
+                        }
                     }
                 }
             }
