@@ -80,4 +80,12 @@ public class CoreEnum
         EVERY_2_V_BLANK,
         MAX,
     }
+
+    public enum ASSET_TYPE
+    {
+        PREFABE,
+        SCENE,
+        ASSETBUNDLE,
+        MAX,
+    }
 }

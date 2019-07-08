@@ -44,6 +44,8 @@ public class ModuleSystem : Singleton<ModuleSystem>
 
     protected CHANGE_TYPE e_ChangeType = CHANGE_TYPE.NONE;
 
+    protected Action m_StartChangeModuleCallBack;
+
     public void RemoveModule(ModuleBase iModule)
     {
         foreach (ModuleBase _M in m_ModuleLsit)
@@ -105,13 +107,17 @@ public class ModuleSystem : Singleton<ModuleSystem>
         {
             if (e_ChangeType == CHANGE_TYPE.PREPARE)
             {
+                if (m_StartChangeModuleCallBack != null)
+                {
+                    m_StartChangeModuleCallBack();
+                    m_StartChangeModuleCallBack = null;
+                }
                 e_ChangeType = CHANGE_TYPE.CHANGE;
             }
             else if (e_ChangeType == CHANGE_TYPE.CHANGE)
             {
                 if (m_NextModule != NULLMODULEID)
                 {
-                    //StartUnloadScene();
                     StartChangeModule(m_NextModule);
                     m_NextModule = NULLMODULEID;
                     e_ChangeType = CHANGE_TYPE.NONE;
@@ -148,22 +154,24 @@ public class ModuleSystem : Singleton<ModuleSystem>
         }
     }
 
-    public void ChangeModule()
+    protected void ChangeModule()
     {
         if (m_NextModule != NULLMODULEID)
         {
             e_ChangeType = CHANGE_TYPE.PREPARE;
-            //m_IsStartChange = true;
-            //StartUnloadScene();
-            //StartChangeModule(m_NextModule);
-            //m_NextModule = NULLMODULEID;
         }
     }
 
     public void ReadyChangeModule(int iNextID, Action iCallback)
     {
         m_NextModule = iNextID;
-        FadeSystem.Instance.FadeOut(iCallback);
+
+        if (iCallback != null)
+        {
+            m_StartChangeModuleCallBack = iCallback;
+        }
+
+        FadeSystem.Instance.FadeOut(ChangeModule);
     }
 
     public ModuleBase CurrentModule()

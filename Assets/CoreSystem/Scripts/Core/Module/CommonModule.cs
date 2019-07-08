@@ -5,22 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class CommonModule : ModuleBase
 {
-    public enum ASSET_TYPE
-    {
-        PREFABE,
-        SCENE,
-        MAX,
-    }
-
-    //static public bool s_IsReady = false;
-
-    public ASSET_TYPE e_AssetType;
+    public CoreEnum.ASSET_TYPE e_AssetType;
     public string m_AssetName;
     protected GameObject m_MainObject;
 
     static public void CreateModules(ModuleDataSO iModuleData)
     {
-        //s_IsReady = false;
         BuildModuleData(iModuleData);
     }
 
@@ -34,11 +24,11 @@ public class CommonModule : ModuleBase
 
     public override void DoFirstRun()
     {
-        if (e_AssetType == ASSET_TYPE.PREFABE)
+        if (e_AssetType == CoreEnum.ASSET_TYPE.PREFABE)
         {
             PrefabLoader.LoadPrefabWithInstance(m_AssetName, LoadPrefabComplete);
         }
-        else if (e_AssetType == ASSET_TYPE.SCENE)
+        else if (e_AssetType == CoreEnum.ASSET_TYPE.SCENE)
         {
             SceneLoader.LoadSceneAsync(m_AssetName, LoadSceneMode.Additive, LoadSceneComplete);
         }
@@ -125,7 +115,7 @@ public class CommonModule : ModuleBase
                 continue;
 
             _Newmodule.m_ModuleID = _Moduledata.ModuleID;
-            _Newmodule.e_AssetType = (ASSET_TYPE)_Moduledata.AssetType;
+            _Newmodule.e_AssetType = (CoreEnum.ASSET_TYPE)_Moduledata.AssetType;
             _Newmodule.m_AssetName = _Moduledata.AssetName;
             ModuleSystem.Instance.RegisterModule(_Newmodule);
         }

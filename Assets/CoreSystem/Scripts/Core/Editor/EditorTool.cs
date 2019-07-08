@@ -107,4 +107,20 @@ static public class EditorTool
             GUI.color = Color.white;
         }
     }
+
+    static public bool CenterButton(string iName, Color iColor)
+    {
+        GUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+
+        Color _OrgColor = GUI.backgroundColor;
+        GUI.backgroundColor = iColor;
+        bool _IsPress = GUILayout.Button(iName);
+        GUI.backgroundColor = _OrgColor;
+
+        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
+
+        return _IsPress;
+    }
 }

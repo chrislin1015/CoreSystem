@@ -153,7 +153,7 @@ MonoBehaviour:
   m_IsDontDestroy: 1
   m_GCFrequence: 300
   m_FirstModuleID: 0
-  m_MoudleData: {fileID: 0}
+  m_MoudleData: {fileID: 11400000, guid: c415e4873f9516a42a1ef677682111b2, type: 2}
   m_TimeZone: 8
   m_TargetFPS: 60
   e_SyncCount: 1

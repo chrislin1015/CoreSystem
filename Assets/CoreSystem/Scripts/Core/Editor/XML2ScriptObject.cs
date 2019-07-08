@@ -11,7 +11,7 @@ public class XML2ScriptObject : EditorWindow
     protected string m_SourcePath;
     protected string m_SourceContent;
 
-    [MenuItem("CoreTool/XML Builder")]
+    [MenuItem("CoreTool/XML To ScriptObject")]
     static void Init()
     {
         s_Instance = (XML2ScriptObject)EditorWindow.GetWindow(typeof(XML2ScriptObject));
@@ -88,11 +88,11 @@ public class XML2ScriptObject : EditorWindow
 
         if (_TextAssets.Count == 0)
         {
-            CenterButton("Create Scriptable Object", Color.gray);
+            EditorTool.CenterButton("Create Scriptable Object", Color.gray);
         }
         else
         {
-            if (CenterButton("Create Scriptable Object", Color.green))
+            if (EditorTool.CenterButton("Create Scriptable Object", Color.green))
             {
                 ShowNotification(new GUIContent("Making string table..."));
 
@@ -101,7 +101,7 @@ public class XML2ScriptObject : EditorWindow
                     m_SourcePath = AssetDatabase.GetAssetPath(_Text.GetInstanceID());
                     m_SourceContent = _Text.text;
 
-                    string _Path = GetFolderPath(m_SourcePath);
+                    string _Path = FileTool.GetFolderPath(m_SourcePath);
 
                     string _SOPath = _Path + _Text.name + ".asset";
                     ScriptableObject _SO = ScriptableObject.CreateInstance(_Text.name + "SO");
@@ -118,6 +118,7 @@ public class XML2ScriptObject : EditorWindow
                         }
                         else
                         {
+                            _SO = _Temp as ScriptableObject;
                             System.Reflection.MethodInfo _M = _SO.GetType().GetMethod("DataFromXML");
                             _M.Invoke(_SO, new object[] { m_SourceContent });
                             AssetDatabase.Refresh();
@@ -126,32 +127,5 @@ public class XML2ScriptObject : EditorWindow
                 }
             }
         }
-    }
-
-    protected bool CenterButton(string iName, Color iColor)
-    {
-        GUILayout.BeginHorizontal();
-        GUILayout.FlexibleSpace();
-
-        Color _OrgColor = GUI.backgroundColor;
-        GUI.backgroundColor = iColor;
-        bool _IsPress = GUILayout.Button(iName);
-        GUI.backgroundColor = _OrgColor;
-
-        GUILayout.FlexibleSpace();
-        GUILayout.EndHorizontal();
-
-        return _IsPress;
-    }
-
-    protected string GetFolderPath(string iPath)
-    {
-        int _DotIndex = iPath.LastIndexOf('.');
-        int _SlashIndex = Mathf.Max(iPath.LastIndexOf('/'), iPath.LastIndexOf('\\'));
-        if (_SlashIndex > 0)
-        {
-            return (_DotIndex > _SlashIndex) ? iPath.Substring(0, _SlashIndex + 1) : iPath + "/";
-        }
-        return "Assets/";
     }
 }

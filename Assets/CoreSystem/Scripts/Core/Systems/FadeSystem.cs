@@ -6,8 +6,8 @@ using System;
 public class FadeSystem : Singleton<FadeSystem>
 {
     protected IFadeObjectBase m_FadeObject;
-    protected Action m_FadeInCallback;
-    protected Action m_FadeOutCallback;
+    //protected Action m_FadeInCallback;
+    //protected Action m_FadeOutCallback;
 
     public CoreEnum.FADE_TYPE FadeType
     {
@@ -19,16 +19,23 @@ public class FadeSystem : Singleton<FadeSystem>
         }
     }
 
-    private void Awake()
-    {
-    }
-
     new protected void OnDestroy()
     {
         base.OnDestroy();
 
-        m_FadeInCallback = null;
-        m_FadeOutCallback = null;
+        //m_FadeInCallback = null;
+        //m_FadeOutCallback = null;
+    }
+
+    private void Update()
+    {
+        
+    }
+
+    public void RegisterFadeCallBack(Action iFadeIn, Action iFadeOut)
+    {
+        //m_FadeInCallback = iFadeIn;
+        //m_FadeOutCallback = iFadeOut;
     }
 
     public void FadeIn(Action iCallback)

@@ -14,10 +14,6 @@ public class MainSystem : Singleton<MainSystem>
      */
     public bool m_IsDontDestroy = true;
 
-    /*
-     * 是否使用通用模組建立功能
-     */
-    //public bool m_IsCommonModules = true;
 
     /*
      * 多久進行一次垃圾收集
@@ -31,13 +27,10 @@ public class MainSystem : Singleton<MainSystem>
 
     public ModuleDataSO m_MoudleData;
 
-    /*
-     * 遊戲系統名稱，設定後會載入遊戲本身的系統管理物件
-     */
-    //public string m_GameSystemName = "";
-
     public int m_TimeZone = 8;
+
     public int m_TargetFPS = 60;
+
     public CoreEnum.VSYNC_COUNT e_SyncCount = CoreEnum.VSYNC_COUNT.EVERY_V_BLANK;
 
     void Awake()
@@ -76,7 +69,7 @@ public class MainSystem : Singleton<MainSystem>
             if (Application.isPlaying)
             {
                 CommonModule.CreateModules(m_MoudleData);
-                ModuleSystem.Instance.ReadyChangeModule(m_FirstModuleID, InitialFadeOutComplete);
+                ModuleSystem.Instance.ReadyChangeModule(m_FirstModuleID, null);
             }
         }
 
@@ -105,12 +98,6 @@ public class MainSystem : Singleton<MainSystem>
                 System.DateTime.Now.Second.ToString(),
                 m_ScreenShotSuperSize);
         }
-
-        /*if (m_IsCommonModules && Application.isPlaying && CommonModule.s_IsReady)
-        {
-            ModuleSystem.Instance.ReadyChangeModule(m_FirstModuleID, InitialFadeOutComplete);
-            CommonModule.s_IsReady = false;
-        }*/
     }
 
     void GPUInfo()
@@ -127,8 +114,8 @@ public class MainSystem : Singleton<MainSystem>
         LogSystem.Instance.Log("GPU NPOT Support : " + SystemInfo.npotSupport.ToString());
     }
 
-    void InitialFadeOutComplete()
+    /*void InitialFadeOutComplete()
     {
         ModuleSystem.Instance.ChangeModule();
-    }
+    }*/
 }
