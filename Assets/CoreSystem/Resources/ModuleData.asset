@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: ModuleData
   m_EditorClassIdentifier: 
   m_ModuleDatas:
-  - ModuleID: 100
+  - ModuleID: 0
     AssetType: 0
-    AssetName: Module/Logo
+    AssetName: Module1
     AttachName: none
   - ModuleID: 1
     AssetType: 0

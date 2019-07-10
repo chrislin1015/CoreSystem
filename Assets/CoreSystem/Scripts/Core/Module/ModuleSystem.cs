@@ -73,10 +73,7 @@ public class ModuleSystem : Singleton<ModuleSystem>
 
     void Awake()
     {
-        if (Instance != null)
-        {
-            Destroy(this);
-        }
+
     }
 
     public void RegisterModule(ModuleBase iModule)

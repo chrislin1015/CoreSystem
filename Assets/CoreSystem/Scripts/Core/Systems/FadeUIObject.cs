@@ -50,6 +50,7 @@ public class FadeUIObject : IFadeObjectBase
             m_FadeInCallBack();
 
         m_CanvasGroup.interactable = false;
+        m_CanvasGroup.blocksRaycasts = false;
         m_FadeImage.raycastTarget = false;
     }
 
@@ -62,6 +63,7 @@ public class FadeUIObject : IFadeObjectBase
         DOTween.To(() => m_CanvasGroup.alpha, x => m_CanvasGroup.alpha = x, 1.0f, m_FadeTime).SetEase(Ease.OutSine).OnComplete(FadeOutComplete);
         m_FadeOutCallBack = iCallback;
         m_CanvasGroup.interactable = true;
+        m_CanvasGroup.blocksRaycasts = true;
         m_FadeImage.raycastTarget = true;
     }
 

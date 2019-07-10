@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class FileLoaderBase : MonoBehaviour
 {
-
     /*
      * 檔案名稱
      */
